@@ -1,0 +1,601 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Quiz game API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: me
+  - name: categories
+  - name: game
+  - name: store
+  - name: admin
+  - name: products
+paths:
+  /products:
+    get:
+      operationId: listProducts
+      tags: [products]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProductList" }
+  /admin/products:
+    get:
+      operationId: adminListProducts
+      tags: [admin]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ProductList" }
+    post:
+      operationId: createProduct
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateProductBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+  /admin/products/{id}:
+    patch:
+      operationId: updateProduct
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateProductBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Product" }
+    delete:
+      operationId: deleteProduct
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+  /admin/ai/generate-questions:
+    post:
+      operationId: aiGenerateQuestions
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AiGenerateQuestionsBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AiGenerateQuestionsResult" }
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HealthStatus" }
+  /me:
+    get:
+      operationId: getMe
+      tags: [me]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Me" }
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CategoryList" }
+  /game/active:
+    get:
+      operationId: getActiveGame
+      tags: [game]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GameOrNull" }
+    patch:
+      operationId: updateActiveGame
+      tags: [game]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateGameBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Game" }
+    delete:
+      operationId: endActiveGame
+      tags: [game]
+      responses:
+        "204": { description: Ended }
+  /game/start:
+    post:
+      operationId: startGame
+      tags: [game]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StartGameBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Game" }
+  /codes/redeem:
+    post:
+      operationId: redeemCode
+      tags: [store]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RedeemCodeBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RedeemResult" }
+  /admin/categories:
+    post:
+      operationId: createCategory
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateCategoryBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Category" }
+  /admin/categories/{id}:
+    patch:
+      operationId: updateCategory
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateCategoryBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Category" }
+    delete:
+      operationId: deleteCategory
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+  /admin/questions:
+    get:
+      operationId: listQuestions
+      tags: [admin]
+      parameters:
+        - name: categoryId
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Question" }
+    post:
+      operationId: createQuestion
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateQuestionBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Question" }
+  /admin/questions/{id}:
+    patch:
+      operationId: updateQuestion
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateQuestionBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Question" }
+    delete:
+      operationId: deleteQuestion
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+  /admin/users:
+    get:
+      operationId: listUsers
+      tags: [admin]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminUserList" }
+  /admin/users/{id}:
+    patch:
+      operationId: updateUser
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateUserBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AdminUser" }
+  /admin/codes:
+    get:
+      operationId: listCodes
+      tags: [admin]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PromoCodeList" }
+    post:
+      operationId: createCodes
+      tags: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateCodesBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PromoCodeList" }
+  /admin/codes/{id}:
+    delete:
+      operationId: deleteCode
+      tags: [admin]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status: { type: string }
+      required: [status]
+    Me:
+      type: object
+      properties:
+        id: { type: string }
+        email: { type: string }
+        name: { type: string }
+        isAdmin: { type: boolean }
+        roundsBalance: { type: integer }
+      required: [id, email, name, isAdmin, roundsBalance]
+    Category:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        imageUrl: { type: ["string", "null"] }
+        questionCount: { type: integer }
+      required: [id, name, questionCount]
+    CategoryList:
+      type: array
+      items: { $ref: "#/components/schemas/Category" }
+    Question:
+      type: object
+      properties:
+        id: { type: integer }
+        categoryId: { type: integer }
+        text: { type: string }
+        answer: { type: string }
+        image: { type: ["string", "null"] }
+        points: { type: integer }
+      required: [id, categoryId, text, answer, points]
+    CreateCategoryBody:
+      type: object
+      properties:
+        name: { type: string }
+        imageUrl: { type: ["string", "null"] }
+      required: [name]
+    UpdateCategoryBody:
+      type: object
+      properties:
+        name: { type: string }
+        imageUrl: { type: ["string", "null"] }
+    CreateQuestionBody:
+      type: object
+      properties:
+        categoryId: { type: integer }
+        text: { type: string }
+        answer: { type: string }
+        image: { type: ["string", "null"] }
+        points: { type: integer }
+      required: [categoryId, text, answer, points]
+    UpdateQuestionBody:
+      type: object
+      properties:
+        text: { type: string }
+        answer: { type: string }
+        image: { type: ["string", "null"] }
+        points: { type: integer }
+        categoryId: { type: integer }
+    GameTeam:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        score: { type: integer }
+      required: [id, name, score]
+    GameQuestion:
+      type: object
+      properties:
+        id: { type: integer }
+        text: { type: string }
+        answer: { type: string }
+        image: { type: ["string", "null"] }
+        points: { type: integer }
+      required: [id, text, answer, points]
+    GameCategory:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        imageUrl: { type: ["string", "null"] }
+        questions:
+          type: array
+          items: { $ref: "#/components/schemas/GameQuestion" }
+      required: [id, name, questions]
+    Game:
+      type: object
+      properties:
+        id: { type: integer }
+        teams:
+          type: array
+          items: { $ref: "#/components/schemas/GameTeam" }
+        categories:
+          type: array
+          items: { $ref: "#/components/schemas/GameCategory" }
+        usedQuestionIds:
+          type: array
+          items: { type: integer }
+      required: [id, teams, categories, usedQuestionIds]
+    GameOrNull:
+      oneOf:
+        - $ref: "#/components/schemas/Game"
+        - type: "null"
+    StartGameBody:
+      type: object
+      properties:
+        teams:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              name: { type: string }
+            required: [id, name]
+        categoryIds:
+          type: array
+          items: { type: integer }
+      required: [teams, categoryIds]
+    UpdateGameBody:
+      type: object
+      properties:
+        teams:
+          type: array
+          items: { $ref: "#/components/schemas/GameTeam" }
+        usedQuestionIds:
+          type: array
+          items: { type: integer }
+    RedeemCodeBody:
+      type: object
+      properties:
+        code: { type: string }
+      required: [code]
+    RedeemResult:
+      type: object
+      properties:
+        roundsAdded: { type: integer }
+        newBalance: { type: integer }
+        message: { type: string }
+      required: [roundsAdded, newBalance, message]
+    AdminUser:
+      type: object
+      properties:
+        id: { type: string }
+        email: { type: string }
+        name: { type: string }
+        isAdmin: { type: boolean }
+        roundsBalance: { type: integer }
+        createdAt: { type: string }
+      required: [id, email, name, isAdmin, roundsBalance, createdAt]
+    AdminUserList:
+      type: array
+      items: { $ref: "#/components/schemas/AdminUser" }
+    UpdateUserBody:
+      type: object
+      properties:
+        roundsBalance: { type: integer }
+        isAdmin: { type: boolean }
+    PromoCode:
+      type: object
+      properties:
+        id: { type: integer }
+        code: { type: string }
+        roundsValue: { type: integer }
+        maxUses: { type: integer }
+        usedCount: { type: integer }
+        createdAt: { type: string }
+      required: [id, code, roundsValue, maxUses, usedCount, createdAt]
+    PromoCodeList:
+      type: array
+      items: { $ref: "#/components/schemas/PromoCode" }
+    CreateCodesBody:
+      type: object
+      properties:
+        roundsValue: { type: integer }
+        maxUses: { type: integer }
+        count: { type: integer }
+      required: [roundsValue, maxUses]
+    Product:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        description: { type: string }
+        rounds: { type: integer }
+        priceCents: { type: integer }
+        discountPercent: { type: integer }
+        currency: { type: string }
+        payhipUrl: { type: string }
+        badge: { type: ["string", "null"] }
+        sortOrder: { type: integer }
+        active: { type: boolean }
+      required: [id, name, description, rounds, priceCents, discountPercent, currency, payhipUrl, sortOrder, active]
+    ProductList:
+      type: array
+      items: { $ref: "#/components/schemas/Product" }
+    CreateProductBody:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        rounds: { type: integer }
+        priceCents: { type: integer }
+        discountPercent: { type: integer }
+        currency: { type: string }
+        payhipUrl: { type: string }
+        badge: { type: ["string", "null"] }
+        sortOrder: { type: integer }
+        active: { type: boolean }
+      required: [name, rounds, priceCents]
+    UpdateProductBody:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        rounds: { type: integer }
+        priceCents: { type: integer }
+        discountPercent: { type: integer }
+        currency: { type: string }
+        payhipUrl: { type: string }
+        badge: { type: ["string", "null"] }
+        sortOrder: { type: integer }
+        active: { type: boolean }
+    AiGenerateQuestionsBody:
+      type: object
+      properties:
+        topic: { type: string }
+        categoryId: { type: ["integer", "null"] }
+        createCategory: { type: boolean }
+      required: [topic]
+    AiGenerateQuestionsResult:
+      type: object
+      properties:
+        categoryId: { type: integer }
+        categoryName: { type: string }
+        created:
+          type: array
+          items: { $ref: "#/components/schemas/Question" }
+      required: [categoryId, categoryName, created]

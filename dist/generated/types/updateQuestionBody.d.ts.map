@@ -1,0 +1,1 @@
+{"version":3,"file":"updateQuestionBody.d.ts","sourceRoot":"","sources":["../../../src/generated/types/updateQuestionBody.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,kBAAkB;IACjC,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,gBAAgB;IAChB,KAAK,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;IACtB,MAAM,CAAC,EAAE,MAAM,CAAC;IAChB,UAAU,CAAC,EAAE,MAAM,CAAC;CACrB"}

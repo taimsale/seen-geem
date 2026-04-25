@@ -1,0 +1,1 @@
+{"version":3,"file":"startGameBody.d.ts","sourceRoot":"","sources":["../../../src/generated/types/startGameBody.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,sBAAsB,EAAE,MAAM,0BAA0B,CAAC;AAEvE,MAAM,WAAW,aAAa;IAC5B,KAAK,EAAE,sBAAsB,EAAE,CAAC;IAChC,WAAW,EAAE,MAAM,EAAE,CAAC;CACvB"}

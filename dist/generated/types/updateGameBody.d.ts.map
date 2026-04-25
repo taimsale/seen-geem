@@ -1,0 +1,1 @@
+{"version":3,"file":"updateGameBody.d.ts","sourceRoot":"","sources":["../../../src/generated/types/updateGameBody.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAE3C,MAAM,WAAW,cAAc;IAC7B,KAAK,CAAC,EAAE,QAAQ,EAAE,CAAC;IACnB,eAAe,CAAC,EAAE,MAAM,EAAE,CAAC;CAC5B"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"gameCategory.d.ts","sourceRoot":"","sources":["../../../src/generated/types/gameCategory.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAEnD,MAAM,WAAW,YAAY;IAC3B,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,MAAM,CAAC;IACb,gBAAgB;IAChB,QAAQ,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;IACzB,SAAS,EAAE,YAAY,EAAE,CAAC;CAC3B"}

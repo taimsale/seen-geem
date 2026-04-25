@@ -1,0 +1,1 @@
+{"version":3,"file":"aiGenerateQuestionsResult.d.ts","sourceRoot":"","sources":["../../../src/generated/types/aiGenerateQuestionsResult.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AACH,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAE3C,MAAM,WAAW,yBAAyB;IACxC,UAAU,EAAE,MAAM,CAAC;IACnB,YAAY,EAAE,MAAM,CAAC;IACrB,OAAO,EAAE,QAAQ,EAAE,CAAC;CACrB"}
